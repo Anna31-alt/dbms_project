@@ -14,6 +14,8 @@
         [v-cloak] { display: none; }
         .tab-content { animation: fadeIn 0.3s ease-in-out; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #CBD5E1; border-radius: 10px; }
     </style>
 </head>
 <body class="bg-[#F8FAFC] text-slate-900">
@@ -41,17 +43,25 @@
                     <div class="bg-blue-600 p-2 rounded-lg"><i data-lucide="activity" class="w-5 h-5"></i></div>
                     <span class="text-lg font-black tracking-tighter">HMS G9</span>
                 </div>
-                <nav class="flex-1 px-4 space-y-1">
-                    <button onclick="switchTab('dashboard')" class="nav-btn w-full flex items-center space-x-3 px-4 py-3.5 rounded-xl transition-all" data-tab="dashboard">
+                <nav class="flex-1 px-4 space-y-1 overflow-y-auto custom-scrollbar">
+                    <button onclick="switchTab('dashboard')" class="nav-btn w-full flex items-center space-x-3 px-4 py-3 rounded-xl transition-all" data-tab="dashboard">
                         <i data-lucide="layout-dashboard" class="w-5 h-5"></i><span class="font-bold text-sm">Dashboard</span>
                     </button>
-                    <button onclick="switchTab('patients')" class="nav-btn w-full flex items-center space-x-3 px-4 py-3.5 rounded-xl transition-all" data-tab="patients">
+                    <div class="pt-4 pb-2 px-4 text-[10px] font-black text-slate-500 uppercase tracking-widest">Medical Records</div>
+                    <button onclick="switchTab('patients')" class="nav-btn w-full flex items-center space-x-3 px-4 py-3 rounded-xl transition-all" data-tab="patients">
                         <i data-lucide="users" class="w-5 h-5"></i><span class="font-bold text-sm">Patients</span>
                     </button>
-                    <button onclick="switchTab('doctors')" class="nav-btn w-full flex items-center space-x-3 px-4 py-3.5 rounded-xl transition-all" data-tab="doctors">
+                    <button onclick="switchTab('doctors')" class="nav-btn w-full flex items-center space-x-3 px-4 py-3 rounded-xl transition-all" data-tab="doctors">
                         <i data-lucide="stethoscope" class="w-5 h-5"></i><span class="font-bold text-sm">Doctors</span>
                     </button>
-                    <button onclick="switchTab('billing')" class="nav-btn w-full flex items-center space-x-3 px-4 py-3.5 rounded-xl transition-all" data-tab="billing">
+                    <button onclick="switchTab('appointments')" class="nav-btn w-full flex items-center space-x-3 px-4 py-3 rounded-xl transition-all" data-tab="appointments">
+                        <i data-lucide="calendar" class="w-5 h-5"></i><span class="font-bold text-sm">Appointments</span>
+                    </button>
+                    <button onclick="switchTab('treatments')" class="nav-btn w-full flex items-center space-x-3 px-4 py-3 rounded-xl transition-all" data-tab="treatments">
+                        <i data-lucide="briefcase-medical" class="w-5 h-5"></i><span class="font-bold text-sm">Treatments</span>
+                    </button>
+                    <div class="pt-4 pb-2 px-4 text-[10px] font-black text-slate-500 uppercase tracking-widest">Operations</div>
+                    <button onclick="switchTab('billing')" class="nav-btn w-full flex items-center space-x-3 px-4 py-3 rounded-xl transition-all" data-tab="billing">
                         <i data-lucide="receipt" class="w-5 h-5"></i><span class="font-bold text-sm">Billing</span>
                     </button>
                 </nav>
@@ -78,26 +88,48 @@
                 <div class="p-8 max-w-7xl mx-auto w-full">
                     <!-- Dashboard Tab -->
                     <div id="tab-dashboard" class="tab-content space-y-8">
-                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                             <div class="bg-white p-6 rounded-3xl border border-slate-100 shadow-sm">
-                                <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Total Patients</p>
+                                <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Patients</p>
                                 <p id="stat-patients" class="text-3xl font-black">0</p>
                             </div>
                             <div class="bg-white p-6 rounded-3xl border border-slate-100 shadow-sm">
-                                <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Active Doctors</p>
+                                <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Doctors</p>
                                 <p id="stat-doctors" class="text-3xl font-black">0</p>
                             </div>
                             <div class="bg-white p-6 rounded-3xl border border-slate-100 shadow-sm">
-                                <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Total Billing</p>
+                                <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Appointments</p>
+                                <p id="stat-appointments" class="text-3xl font-black">0</p>
+                            </div>
+                            <div class="bg-white p-6 rounded-3xl border border-slate-100 shadow-sm">
+                                <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Billing</p>
                                 <p id="stat-billing" class="text-3xl font-black">₹0</p>
                             </div>
                         </div>
+                        
                         <div class="bg-slate-900 text-white rounded-[2rem] p-8">
-                            <h3 class="text-lg font-black mb-4">Relational Database Model</h3>
-                            <p class="text-slate-400 text-sm leading-relaxed mb-6">Currently simulating 3 linked tables: <code class="text-blue-400">PATIENTS</code>, <code class="text-DOCTORS">DOCTORS</code>, and <code class="text-rose-400">BILLING</code> with referential integrity. Managed by Group 9.</p>
+                            <h3 class="text-lg font-black mb-4">Relational Database Architecture</h3>
+                            <p class="text-slate-400 text-sm leading-relaxed mb-6">A centralized hospital database system linking medical and administrative data through structured relationships.</p>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                                <div class="bg-slate-800/50 p-5 rounded-2xl border border-slate-700">
+                                    <div class="flex items-center space-x-3 mb-2">
+                                        <i data-lucide="server" class="w-4 h-4 text-blue-400"></i>
+                                        <p class="text-[10px] font-black text-blue-400 uppercase tracking-widest">Backend Stack</p>
+                                    </div>
+                                    <p class="text-sm font-bold">Node.js Runtime Environment</p>
+                                </div>
+                                <div class="bg-slate-800/50 p-5 rounded-2xl border border-slate-700">
+                                    <div class="flex items-center space-x-3 mb-2">
+                                        <i data-lucide="database" class="w-4 h-4 text-emerald-400"></i>
+                                        <p class="text-[10px] font-black text-emerald-400 uppercase tracking-widest">RDBMS Engine</p>
+                                    </div>
+                                    <p class="text-sm font-bold">MySQL 8.0 / Supabase Cloud</p>
+                                </div>
+                            </div>
                             <div class="flex flex-wrap gap-2">
-                                <span class="bg-slate-800 px-3 py-1 rounded-full text-[10px] font-bold border border-slate-700">Primary Keys: ID</span>
-                                <span class="bg-slate-800 px-3 py-1 rounded-full text-[10px] font-bold border border-slate-700">Storage: In-Memory / GitHub Ready</span>
+                                <span class="bg-slate-800 px-3 py-1 rounded-full text-[10px] font-bold border border-slate-700 text-slate-300">Schema: Relational</span>
+                                <span class="bg-slate-800 px-3 py-1 rounded-full text-[10px] font-bold border border-slate-700 text-slate-300">Integrity: Primary & Foreign Keys</span>
+                                <span class="bg-slate-800 px-3 py-1 rounded-full text-[10px] font-bold border border-slate-700 text-slate-300">Persistence: Supabase Real-time</span>
                             </div>
                         </div>
                     </div>
@@ -106,7 +138,7 @@
                     <div id="tab-patients" class="tab-content hidden space-y-6">
                         <div class="flex justify-between items-center">
                             <h3 class="text-lg font-black uppercase tracking-tight">Patient Registry</h3>
-                            <button onclick="openModal('patient')" class="bg-blue-600 text-white px-5 py-3 rounded-2xl font-black text-xs uppercase tracking-widest flex items-center gap-2 shadow-lg shadow-blue-500/20"><i data-lucide="plus" class="w-4 h-4"></i> New Entry</button>
+                            <button onclick="openModal('patient')" class="bg-blue-600 text-white px-5 py-3 rounded-2xl font-black text-xs uppercase tracking-widest flex items-center gap-2 shadow-lg shadow-blue-500/20"><i data-lucide="plus" class="w-4 h-4"></i> New Patient</button>
                         </div>
                         <div class="bg-white rounded-3xl border border-slate-200 overflow-hidden shadow-sm">
                             <table class="w-full text-left">
@@ -127,10 +159,42 @@
                         <div id="grid-doctors" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
                     </div>
 
+                    <!-- Appointments Tab -->
+                    <div id="tab-appointments" class="tab-content hidden space-y-6">
+                        <div class="flex justify-between items-center">
+                            <h3 class="text-lg font-black uppercase tracking-tight">Schedule</h3>
+                            <button onclick="openModal('appointment')" class="bg-orange-600 text-white px-5 py-3 rounded-2xl font-black text-xs uppercase tracking-widest flex items-center gap-2 shadow-lg shadow-orange-500/20"><i data-lucide="calendar-plus" class="w-4 h-4"></i> Book Appointment</button>
+                        </div>
+                        <div class="bg-white rounded-3xl border border-slate-200 overflow-hidden shadow-sm">
+                            <table class="w-full text-left">
+                                <thead class="bg-slate-50 border-b border-slate-100 text-[10px] font-black text-slate-400 uppercase">
+                                    <tr><th class="px-6 py-4">Appt#</th><th class="px-6 py-4">Patient</th><th class="px-6 py-4">Doctor</th><th class="px-6 py-4">Time</th><th class="px-6 py-4 text-right">Actions</th></tr>
+                                </thead>
+                                <tbody id="table-appointments" class="divide-y divide-slate-50"></tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Treatments Tab -->
+                    <div id="tab-treatments" class="tab-content hidden space-y-6">
+                        <div class="flex justify-between items-center">
+                            <h3 class="text-lg font-black uppercase tracking-tight">Medical Procedures</h3>
+                            <button onclick="openModal('treatment')" class="bg-rose-600 text-white px-5 py-3 rounded-2xl font-black text-xs uppercase tracking-widest flex items-center gap-2 shadow-lg shadow-rose-500/20"><i data-lucide="plus" class="w-4 h-4"></i> Log Treatment</button>
+                        </div>
+                        <div class="bg-white rounded-3xl border border-slate-200 overflow-hidden shadow-sm">
+                            <table class="w-full text-left">
+                                <thead class="bg-slate-50 border-b border-slate-100 text-[10px] font-black text-slate-400 uppercase">
+                                    <tr><th class="px-6 py-4">Treat#</th><th class="px-6 py-4">Patient</th><th class="px-6 py-4">Type</th><th class="px-6 py-4">Results</th><th class="px-6 py-4 text-right">Actions</th></tr>
+                                </thead>
+                                <tbody id="table-treatments" class="divide-y divide-slate-50"></tbody>
+                            </table>
+                        </div>
+                    </div>
+
                     <!-- Billing Tab -->
                     <div id="tab-billing" class="tab-content hidden space-y-6">
                         <div class="flex justify-between items-center">
-                            <h3 class="text-lg font-black uppercase tracking-tight">Accounts Receivable</h3>
+                            <h3 class="text-lg font-black uppercase tracking-tight">Financial Records</h3>
                             <button onclick="openModal('bill')" class="bg-indigo-600 text-white px-5 py-3 rounded-2xl font-black text-xs uppercase tracking-widest flex items-center gap-2 shadow-lg shadow-indigo-500/20"><i data-lucide="plus" class="w-4 h-4"></i> Create Invoice</button>
                         </div>
                         <div class="bg-white rounded-3xl border border-slate-200 overflow-hidden shadow-sm">
@@ -146,7 +210,7 @@
             </main>
         </div>
 
-        <!-- Dynamic Modal (used for Add/Edit) -->
+        <!-- Dynamic Modal -->
         <div id="modal" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-[100] hidden items-center justify-center p-4">
             <div class="bg-white rounded-[2rem] w-full max-w-md overflow-hidden">
                 <div class="p-6 border-b border-slate-100 flex justify-between items-center">
@@ -157,21 +221,27 @@
                     <input type="hidden" id="edit-id">
                     <input type="hidden" id="modal-type">
                     <div id="form-fields" class="space-y-4"></div>
-                    <button type="submit" class="w-full bg-slate-900 text-white py-4 rounded-2xl font-black uppercase text-xs tracking-widest shadow-xl">Save Changes</button>
+                    <button type="submit" class="w-full bg-slate-900 text-white py-4 rounded-2xl font-black uppercase text-xs tracking-widest shadow-xl">Confirm Entry</button>
                 </form>
             </div>
         </div>
     </div>
 
     <script>
-        // --- DATA ---
+        // --- RELATIONAL DATA STORE ---
         let patients = [
             { id: 'P001', name: 'Anjana Ramesh', status: 'In-patient', diagnosis: 'Migraine' },
-            { id: 'P002', name: 'Arathi Krishna', status: 'Out-patient', diagnosis: 'General Checkup' }
+            { id: 'P002', name: 'Arathi Krishna', status: 'Out-patient', diagnosis: 'Checkup' }
         ];
         let doctors = [
             { id: 'D001', name: 'Dr. Shihab', specialty: 'Cardiology', status: 'Available' },
             { id: 'D002', name: 'Dr. Akhila K', specialty: 'Neurology', status: 'On Duty' }
+        ];
+        let appointments = [
+            { id: 'A901', patient: 'Anjana Ramesh', doctor: 'Dr. Shihab', time: '10:30 AM' }
+        ];
+        let treatments = [
+            { id: 'T501', patient: 'Arathi Krishna', type: 'Physical Therapy', result: 'Progressing' }
         ];
         let bills = [
             { id: 'B101', name: 'Anjana Ramesh', amount: '2500', status: 'Paid' },
@@ -206,52 +276,46 @@
             render();
         }
 
-        // --- MODAL SYSTEM ---
+        // --- MODAL ENGINE ---
         function openModal(type, id = null) {
             const modal = document.getElementById('modal');
-            const title = document.getElementById('modal-title');
             const fields = document.getElementById('form-fields');
             const typeInput = document.getElementById('modal-type');
             const editId = document.getElementById('edit-id');
             
             typeInput.value = type;
             editId.value = id || '';
-            title.innerText = (id ? 'Edit ' : 'New ') + type.charAt(0).toUpperCase() + type.slice(1);
+            document.getElementById('modal-title').innerText = (id ? 'Edit ' : 'New ') + type.charAt(0).toUpperCase() + type.slice(1);
             
             let data = id ? 
                 (type === 'patient' ? patients.find(x => x.id === id) : 
                  type === 'doctor' ? doctors.find(x => x.id === id) : 
+                 type === 'appointment' ? appointments.find(x => x.id === id) :
+                 type === 'treatment' ? treatments.find(x => x.id === id) :
                  bills.find(x => x.id === id)) : {};
 
             fields.innerHTML = '';
+            
             if (type === 'patient') {
-                fields.innerHTML = `
-                    <input type="text" id="p-name" placeholder="Name" value="${data.name || ''}" class="w-full p-4 bg-slate-50 border rounded-xl font-bold" required>
-                    <select id="p-status" class="w-full p-4 bg-slate-50 border rounded-xl font-bold">
-                        <option ${data.status === 'In-patient' ? 'selected' : ''}>In-patient</option>
-                        <option ${data.status === 'Out-patient' ? 'selected' : ''}>Out-patient</option>
-                    </select>
-                    <input type="text" id="p-diag" placeholder="Diagnosis" value="${data.diagnosis || ''}" class="w-full p-4 bg-slate-50 border rounded-xl font-bold" required>
-                `;
+                fields.innerHTML = `<input type="text" id="p-name" placeholder="Name" value="${data.name || ''}" class="w-full p-4 bg-slate-50 border rounded-xl font-bold" required>
+                <select id="p-status" class="w-full p-4 bg-slate-50 border rounded-xl font-bold"><option ${data.status==='In-patient'?'selected':''}>In-patient</option><option ${data.status==='Out-patient'?'selected':''}>Out-patient</option></select>
+                <input type="text" id="p-diag" placeholder="Diagnosis" value="${data.diagnosis || ''}" class="w-full p-4 bg-slate-50 border rounded-xl font-bold" required>`;
             } else if (type === 'doctor') {
-                fields.innerHTML = `
-                    <input type="text" id="d-name" placeholder="Doctor Name" value="${data.name || ''}" class="w-full p-4 bg-slate-50 border rounded-xl font-bold" required>
-                    <input type="text" id="d-spec" placeholder="Specialty" value="${data.specialty || ''}" class="w-full p-4 bg-slate-50 border rounded-xl font-bold" required>
-                    <select id="d-status" class="w-full p-4 bg-slate-50 border rounded-xl font-bold">
-                        <option ${data.status === 'Available' ? 'selected' : ''}>Available</option>
-                        <option ${data.status === 'On Duty' ? 'selected' : ''}>On Duty</option>
-                        <option ${data.status === 'Off' ? 'selected' : ''}>Off</option>
-                    </select>
-                `;
+                fields.innerHTML = `<input type="text" id="d-name" placeholder="Name" value="${data.name || ''}" class="w-full p-4 bg-slate-50 border rounded-xl font-bold" required>
+                <input type="text" id="d-spec" placeholder="Specialty" value="${data.specialty || ''}" class="w-full p-4 bg-slate-50 border rounded-xl font-bold" required>
+                <select id="d-status" class="w-full p-4 bg-slate-50 border rounded-xl font-bold"><option ${data.status==='Available'?'selected':''}>Available</option><option ${data.status==='On Duty'?'selected':''}>On Duty</option></select>`;
+            } else if (type === 'appointment') {
+                fields.innerHTML = `<input type="text" id="a-pname" placeholder="Patient Name" value="${data.patient || ''}" class="w-full p-4 bg-slate-50 border rounded-xl font-bold" required>
+                <input type="text" id="a-dname" placeholder="Doctor Name" value="${data.doctor || ''}" class="w-full p-4 bg-slate-50 border rounded-xl font-bold" required>
+                <input type="text" id="a-time" placeholder="Time (e.g. 11:00 AM)" value="${data.time || ''}" class="w-full p-4 bg-slate-50 border rounded-xl font-bold" required>`;
+            } else if (type === 'treatment') {
+                fields.innerHTML = `<input type="text" id="t-pname" placeholder="Patient Name" value="${data.patient || ''}" class="w-full p-4 bg-slate-50 border rounded-xl font-bold" required>
+                <input type="text" id="t-type" placeholder="Treatment Type" value="${data.type || ''}" class="w-full p-4 bg-slate-50 border rounded-xl font-bold" required>
+                <input type="text" id="t-result" placeholder="Results/Notes" value="${data.result || ''}" class="w-full p-4 bg-slate-50 border rounded-xl font-bold" required>`;
             } else if (type === 'bill') {
-                fields.innerHTML = `
-                    <input type="text" id="b-name" placeholder="Patient Name" value="${data.name || ''}" class="w-full p-4 bg-slate-50 border rounded-xl font-bold" required>
-                    <input type="number" id="b-amount" placeholder="Amount (₹)" value="${data.amount || ''}" class="w-full p-4 bg-slate-50 border rounded-xl font-bold" required>
-                    <select id="b-status" class="w-full p-4 bg-slate-50 border rounded-xl font-bold">
-                        <option ${data.status === 'Paid' ? 'selected' : ''}>Paid</option>
-                        <option ${data.status === 'Pending' ? 'selected' : ''}>Pending</option>
-                    </select>
-                `;
+                fields.innerHTML = `<input type="text" id="b-name" placeholder="Patient Name" value="${data.name || ''}" class="w-full p-4 bg-slate-50 border rounded-xl font-bold" required>
+                <input type="number" id="b-amt" placeholder="Amount (₹)" value="${data.amount || ''}" class="w-full p-4 bg-slate-50 border rounded-xl font-bold" required>
+                <select id="b-status" class="w-full p-4 bg-slate-50 border rounded-xl font-bold"><option ${data.status==='Paid'?'selected':''}>Paid</option><option ${data.status==='Pending'?'selected':''}>Pending</option></select>`;
             }
 
             modal.classList.remove('hidden');
@@ -263,24 +327,27 @@
             document.getElementById('modal').classList.remove('flex');
         }
 
-        // --- CRUD ACTIONS ---
+        // --- CRUD LOGIC ---
         document.getElementById('modal-form').addEventListener('submit', (e) => {
             e.preventDefault();
             const type = document.getElementById('modal-type').value;
             const id = document.getElementById('edit-id').value;
 
             if (type === 'patient') {
-                const item = { id: id || 'P' + Date.now().toString().slice(-3), name: document.getElementById('p-name').value, status: document.getElementById('p-status').value, diagnosis: document.getElementById('p-diag').value };
-                if (id) patients = patients.map(p => p.id === id ? item : p);
-                else patients.push(item);
+                const item = { id: id || 'P' + Math.floor(Math.random()*1000), name: document.getElementById('p-name').value, status: document.getElementById('p-status').value, diagnosis: document.getElementById('p-diag').value };
+                if (id) patients = patients.map(x => x.id === id ? item : x); else patients.push(item);
             } else if (type === 'doctor') {
-                const item = { id: id || 'D' + Date.now().toString().slice(-3), name: document.getElementById('d-name').value, specialty: document.getElementById('d-spec').value, status: document.getElementById('d-status').value };
-                if (id) doctors = doctors.map(d => d.id === id ? item : d);
-                else doctors.push(item);
+                const item = { id: id || 'D' + Math.floor(Math.random()*1000), name: document.getElementById('d-name').value, specialty: document.getElementById('d-spec').value, status: document.getElementById('d-status').value };
+                if (id) doctors = doctors.map(x => x.id === id ? item : x); else doctors.push(item);
+            } else if (type === 'appointment') {
+                const item = { id: id || 'A' + Math.floor(Math.random()*1000), patient: document.getElementById('a-pname').value, doctor: document.getElementById('a-dname').value, time: document.getElementById('a-time').value };
+                if (id) appointments = appointments.map(x => x.id === id ? item : x); else appointments.push(item);
+            } else if (type === 'treatment') {
+                const item = { id: id || 'T' + Math.floor(Math.random()*1000), patient: document.getElementById('t-pname').value, type: document.getElementById('t-type').value, result: document.getElementById('t-result').value };
+                if (id) treatments = treatments.map(x => x.id === id ? item : x); else treatments.push(item);
             } else if (type === 'bill') {
-                const item = { id: id || 'B' + Date.now().toString().slice(-3), name: document.getElementById('b-name').value, amount: document.getElementById('b-amount').value, status: document.getElementById('b-status').value };
-                if (id) bills = bills.map(b => b.id === id ? item : b);
-                else bills.push(item);
+                const item = { id: id || 'B' + Math.floor(Math.random()*1000), name: document.getElementById('b-name').value, amount: document.getElementById('b-amt').value, status: document.getElementById('b-status').value };
+                if (id) bills = bills.map(x => x.id === id ? item : x); else bills.push(item);
             }
 
             closeModal();
@@ -288,65 +355,46 @@
         });
 
         function deleteItem(type, id) {
-            if (!confirm('Are you sure you want to delete this record?')) return;
-            if (type === 'patient') patients = patients.filter(p => p.id !== id);
-            if (type === 'doctor') doctors = doctors.filter(d => d.id !== id);
-            if (type === 'bill') bills = bills.filter(b => b.id !== id);
+            if (!confirm('Permanent deletion. Continue?')) return;
+            if (type === 'patient') patients = patients.filter(x => x.id !== id);
+            if (type === 'doctor') doctors = doctors.filter(x => x.id !== id);
+            if (type === 'appointment') appointments = appointments.filter(x => x.id !== id);
+            if (type === 'treatment') treatments = treatments.filter(x => x.id !== id);
+            if (type === 'bill') bills = bills.filter(x => x.id !== id);
             render();
         }
 
-        // --- RENDERING ---
+        // --- RENDER ENGINE ---
         function render() {
             // Stats
             document.getElementById('stat-patients').innerText = patients.length;
             document.getElementById('stat-doctors').innerText = doctors.length;
-            document.getElementById('stat-billing').innerText = '₹' + bills.reduce((acc, b) => acc + parseInt(b.amount || 0), 0).toLocaleString();
+            document.getElementById('stat-appointments').innerText = appointments.length;
+            document.getElementById('stat-billing').innerText = '₹' + bills.reduce((a, b) => a + parseInt(b.amount || 0), 0).toLocaleString();
 
-            // Patients Table
+            // Tables
             document.getElementById('table-patients').innerHTML = patients.map(p => `
-                <tr class="hover:bg-blue-50/50">
-                    <td class="px-6 py-5 font-mono text-blue-600 font-bold text-xs">${p.id}</td>
-                    <td class="px-6 py-5 font-bold">${p.name}</td>
-                    <td class="px-6 py-5"><span class="px-3 py-1 rounded-full text-[9px] font-black uppercase ${p.status === 'In-patient' ? 'bg-amber-100 text-amber-600' : 'bg-blue-100 text-blue-600'}">${p.status}</span></td>
-                    <td class="px-6 py-5 text-xs text-slate-500">${p.diagnosis}</td>
-                    <td class="px-6 py-5 text-right space-x-2">
-                        <button onclick="openModal('patient', '${p.id}')" class="text-slate-400 hover:text-blue-600"><i data-lucide="edit-3" class="w-4 h-4"></i></button>
-                        <button onclick="deleteItem('patient', '${p.id}')" class="text-slate-400 hover:text-rose-600"><i data-lucide="trash-2" class="w-4 h-4"></i></button>
-                    </td>
-                </tr>
-            `).join('');
+                <tr class="hover:bg-blue-50/50"><td class="px-6 py-4 font-mono text-blue-600 font-bold text-[10px]">${p.id}</td><td class="px-6 py-4 font-bold">${p.name}</td>
+                <td class="px-6 py-4"><span class="px-2 py-1 rounded-full text-[8px] font-black uppercase ${p.status==='In-patient'?'bg-amber-100 text-amber-600':'bg-blue-100 text-blue-600'}">${p.status}</span></td>
+                <td class="px-6 py-4 text-xs text-slate-500">${p.diagnosis}</td>
+                <td class="px-6 py-4 text-right space-x-2"><button onclick="openModal('patient', '${p.id}')" class="text-slate-400 hover:text-blue-600"><i data-lucide="edit-3" class="w-4 h-4"></i></button><button onclick="deleteItem('patient', '${p.id}')" class="text-slate-400 hover:text-rose-600"><i data-lucide="trash-2" class="w-4 h-4"></i></button></td></tr>`).join('');
 
-            // Doctors Grid
             document.getElementById('grid-doctors').innerHTML = doctors.map(d => `
-                <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm relative group">
-                    <div class="flex justify-between items-start mb-4">
-                        <div class="w-12 h-12 bg-slate-900 rounded-xl flex items-center justify-center text-white"><i data-lucide="stethoscope"></i></div>
-                        <div class="space-x-2">
-                            <button onclick="openModal('doctor', '${d.id}')" class="text-slate-400 hover:text-blue-600"><i data-lucide="edit-3" class="w-4 h-4"></i></button>
-                            <button onclick="deleteItem('doctor', '${d.id}')" class="text-slate-400 hover:text-rose-600"><i data-lucide="trash-2" class="w-4 h-4"></i></button>
-                        </div>
-                    </div>
-                    <h4 class="font-black text-slate-900">${d.name}</h4>
-                    <p class="text-blue-600 font-bold text-[10px] uppercase tracking-widest mb-4">${d.specialty}</p>
-                    <div class="flex items-center text-[10px] font-black uppercase ${d.status === 'Available' ? 'text-emerald-500' : 'text-amber-500'}">
-                        <span class="w-2 h-2 rounded-full bg-current mr-2"></span> ${d.status}
-                    </div>
-                </div>
-            `).join('');
+                <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm">
+                    <div class="flex justify-between items-start mb-4"><div class="w-10 h-10 bg-slate-900 rounded-xl flex items-center justify-center text-white"><i data-lucide="stethoscope" class="w-5 h-5"></i></div><div class="space-x-1"><button onclick="openModal('doctor', '${d.id}')" class="p-1.5 text-slate-400 hover:text-blue-600"><i data-lucide="edit-3" class="w-3.5 h-3.5"></i></button><button onclick="deleteItem('doctor', '${d.id}')" class="p-1.5 text-slate-400 hover:text-rose-600"><i data-lucide="trash-2" class="w-3.5 h-3.5"></i></button></div></div>
+                    <h4 class="font-black text-slate-900">${d.name}</h4><p class="text-blue-600 font-bold text-[10px] uppercase tracking-widest">${d.specialty}</p></div>`).join('');
 
-            // Billing Table
+            document.getElementById('table-appointments').innerHTML = appointments.map(a => `
+                <tr class="hover:bg-slate-50"><td class="px-6 py-4 font-mono text-[10px]">${a.id}</td><td class="px-6 py-4 font-bold">${a.patient}</td><td class="px-6 py-4 font-bold text-slate-500">${a.doctor}</td><td class="px-6 py-4 text-xs">${a.time}</td>
+                <td class="px-6 py-4 text-right space-x-2"><button onclick="openModal('appointment', '${a.id}')" class="text-slate-400 hover:text-blue-600"><i data-lucide="edit-3" class="w-4 h-4"></i></button><button onclick="deleteItem('appointment', '${a.id}')" class="text-slate-400 hover:text-rose-600"><i data-lucide="trash-2" class="w-4 h-4"></i></button></td></tr>`).join('');
+
+            document.getElementById('table-treatments').innerHTML = treatments.map(t => `
+                <tr class="hover:bg-slate-50"><td class="px-6 py-4 font-mono text-[10px]">${t.id}</td><td class="px-6 py-4 font-bold">${t.patient}</td><td class="px-6 py-4 text-rose-600 font-bold text-xs">${t.type}</td><td class="px-6 py-4 text-xs text-slate-500">${t.result}</td>
+                <td class="px-6 py-4 text-right space-x-2"><button onclick="openModal('treatment', '${t.id}')" class="text-slate-400 hover:text-blue-600"><i data-lucide="edit-3" class="w-4 h-4"></i></button><button onclick="deleteItem('treatment', '${t.id}')" class="text-slate-400 hover:text-rose-600"><i data-lucide="trash-2" class="w-4 h-4"></i></button></td></tr>`).join('');
+
             document.getElementById('table-billing').innerHTML = bills.map(b => `
-                <tr class="hover:bg-slate-50">
-                    <td class="px-6 py-5 font-mono text-xs">${b.id}</td>
-                    <td class="px-6 py-5 font-bold">${b.name}</td>
-                    <td class="px-6 py-5 font-black">₹${b.amount}</td>
-                    <td class="px-6 py-5"><span class="px-3 py-1 rounded-full text-[9px] font-black uppercase ${b.status === 'Paid' ? 'bg-emerald-100 text-emerald-600' : 'bg-rose-100 text-rose-600'}">${b.status}</span></td>
-                    <td class="px-6 py-5 text-right space-x-2">
-                        <button onclick="openModal('bill', '${b.id}')" class="text-slate-400 hover:text-blue-600"><i data-lucide="edit-3" class="w-4 h-4"></i></button>
-                        <button onclick="deleteItem('bill', '${b.id}')" class="text-slate-400 hover:text-rose-600"><i data-lucide="trash-2" class="w-4 h-4"></i></button>
-                    </td>
-                </tr>
-            `).join('');
+                <tr class="hover:bg-slate-50"><td class="px-6 py-4 font-mono text-[10px]">${b.id}</td><td class="px-6 py-4 font-bold">${b.name}</td><td class="px-6 py-4 font-black">₹${b.amount}</td><td><span class="px-2 py-1 rounded-full text-[8px] font-black uppercase ${b.status==='Paid'?'bg-emerald-100 text-emerald-600':'bg-rose-100 text-rose-600'}">${b.status}</span></td>
+                <td class="px-6 py-4 text-right space-x-2"><button onclick="openModal('bill', '${b.id}')" class="text-slate-400 hover:text-blue-600"><i data-lucide="edit-3" class="w-4 h-4"></i></button><button onclick="deleteItem('bill', '${b.id}')" class="text-slate-400 hover:text-rose-600"><i data-lucide="trash-2" class="w-4 h-4"></i></button></td></tr>`).join('');
 
             lucide.createIcons();
         }
