@@ -3,266 +3,161 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CarePoint HMS - Group 9 Project</title>
-    <!-- Tailwind CSS for high-end styling -->
+    <title>CarePoint HMS - Group 9 Admin</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
-    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Plus Jakarta Sans', sans-serif; }
-        .glass-header { background: rgba(255, 255, 255, 0.75); backdrop-filter: blur(12px); }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; scroll-behavior: smooth; }
+        .glass-header { background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(12px); }
         .sidebar-gradient { background: linear-gradient(180deg, #0F172A 0%, #1E293B 100%); }
-        .custom-scrollbar::-webkit-scrollbar { width: 6px; }
-        .custom-scrollbar::-webkit-scrollbar-thumb { background: #E2E8F0; border-radius: 10px; }
         [v-cloak] { display: none; }
+        .tab-content { animation: fadeIn 0.3s ease-in-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body class="bg-[#F8FAFC] text-slate-900">
     <div id="app">
-        <!-- Login Screen -->
+        <!-- Auth Screen -->
         <div id="login-screen" class="min-h-screen flex items-center justify-center p-4 bg-slate-950">
-            <div class="bg-white rounded-[2.5rem] shadow-2xl w-full max-w-md overflow-hidden transition-all duration-500 transform">
-                <div class="bg-blue-600 p-10 text-center text-white relative overflow-hidden">
-                    <div class="relative z-10">
-                        <div class="bg-white/20 w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-4 backdrop-blur-md">
-                            <i data-lucide="shield-check" class="w-10 h-10"></i>
-                        </div>
-                        <h1 class="text-2xl font-extrabold tracking-tight uppercase italic">CarePoint</h1>
-                        <p class="text-blue-100 text-[10px] font-bold uppercase tracking-widest mt-2">Relational Data Management</p>
-                    </div>
-                    <div class="absolute -right-8 -bottom-8 opacity-10">
-                        <i data-lucide="activity" class="w-40 h-40"></i>
-                    </div>
+            <div class="bg-white rounded-[2.5rem] shadow-2xl w-full max-w-md overflow-hidden">
+                <div class="bg-blue-600 p-10 text-center text-white relative">
+                    <h1 class="text-3xl font-black italic tracking-tighter uppercase">CarePoint</h1>
+                    <p class="text-blue-100 text-[10px] font-bold uppercase tracking-[0.2em] mt-2">Group 9 DBMS Project</p>
                 </div>
-                <form id="login-form" class="p-8 space-y-6">
-                    <div class="space-y-4">
-                        <div>
-                            <label class="block text-[10px] font-black text-gray-400 uppercase tracking-widest mb-2 ml-1">Admin Username</label>
-                            <input type="text" id="username" required class="w-full px-5 py-4 rounded-2xl bg-gray-50 border border-gray-100 focus:ring-2 focus:ring-blue-500 outline-none transition-all font-bold" placeholder="admin">
-                        </div>
-                        <div>
-                            <label class="block text-[10px] font-black text-gray-400 uppercase tracking-widest mb-2 ml-1">Password</label>
-                            <input type="password" id="password" required class="w-full px-5 py-4 rounded-2xl bg-gray-50 border border-gray-100 focus:ring-2 focus:ring-blue-500 outline-none transition-all font-bold" placeholder="••••••••">
-                        </div>
-                    </div>
-                    <p id="login-error" class="hidden text-rose-500 text-xs font-bold bg-rose-50 p-3 rounded-xl flex items-center gap-2">
-                        <i data-lucide="alert-circle" class="w-4 h-4"></i> Invalid Credentials
-                    </p>
-                    <button type="submit" class="w-full bg-slate-900 text-white font-black py-4 rounded-2xl hover:bg-blue-600 transition-all uppercase tracking-widest text-xs">
-                        Authorize Session
-                    </button>
-                    <div class="pt-4 text-center border-t border-slate-100">
-                        <p class="text-[9px] text-gray-400 font-bold uppercase tracking-widest leading-loose">
-                            Submitted By: Group 9<br>Vidya Academy of Science & Tech
-                        </p>
-                    </div>
+                <form id="login-form" class="p-8 space-y-4">
+                    <input type="text" id="username" placeholder="Username (admin)" required class="w-full px-5 py-4 rounded-2xl bg-gray-50 border border-gray-100 focus:ring-2 focus:ring-blue-500 outline-none font-bold">
+                    <input type="password" id="password" placeholder="Password (admin123)" required class="w-full px-5 py-4 rounded-2xl bg-gray-50 border border-gray-100 focus:ring-2 focus:ring-blue-500 outline-none font-bold">
+                    <button type="submit" class="w-full bg-slate-900 text-white font-black py-4 rounded-2xl hover:bg-blue-600 transition-all uppercase text-xs tracking-widest">Login</button>
                 </form>
             </div>
         </div>
 
-        <!-- Main Application Layout (Hidden by Default) -->
+        <!-- App Layout -->
         <div id="main-app" class="hidden flex h-screen overflow-hidden">
             <!-- Sidebar -->
-            <aside class="sidebar-gradient text-white w-72 flex-shrink-0 flex flex-col border-r border-slate-800">
+            <aside class="sidebar-gradient text-white w-64 flex-shrink-0 flex flex-col border-r border-slate-800">
                 <div class="p-8 flex items-center space-x-3">
-                    <div class="bg-blue-600 p-2.5 rounded-xl">
-                        <i data-lucide="activity" class="w-6 h-6"></i>
-                    </div>
-                    <span class="text-xl font-black tracking-tighter italic">CAREPOINT</span>
+                    <div class="bg-blue-600 p-2 rounded-lg"><i data-lucide="activity" class="w-5 h-5"></i></div>
+                    <span class="text-lg font-black tracking-tighter">HMS G9</span>
                 </div>
-                
-                <nav class="flex-1 mt-6 px-4 space-y-2">
-                    <button onclick="switchTab('dashboard')" class="nav-btn w-full flex items-center space-x-4 px-5 py-4 rounded-2xl bg-blue-600 text-white shadow-lg" data-tab="dashboard">
-                        <i data-lucide="layout-grid" class="w-5 h-5"></i>
-                        <span class="font-bold text-sm">Dashboard</span>
+                <nav class="flex-1 px-4 space-y-1">
+                    <button onclick="switchTab('dashboard')" class="nav-btn w-full flex items-center space-x-3 px-4 py-3.5 rounded-xl transition-all" data-tab="dashboard">
+                        <i data-lucide="layout-dashboard" class="w-5 h-5"></i><span class="font-bold text-sm">Dashboard</span>
                     </button>
-                    <button onclick="switchTab('patients')" class="nav-btn w-full flex items-center space-x-4 px-5 py-4 rounded-2xl text-slate-400 hover:bg-slate-800 transition-all" data-tab="patients">
-                        <i data-lucide="users" class="w-5 h-5"></i>
-                        <span class="font-bold text-sm">Patient Records</span>
+                    <button onclick="switchTab('patients')" class="nav-btn w-full flex items-center space-x-3 px-4 py-3.5 rounded-xl transition-all" data-tab="patients">
+                        <i data-lucide="users" class="w-5 h-5"></i><span class="font-bold text-sm">Patients</span>
                     </button>
-                    <button onclick="switchTab('doctors')" class="nav-btn w-full flex items-center space-x-4 px-5 py-4 rounded-2xl text-slate-400 hover:bg-slate-800 transition-all" data-tab="doctors">
-                        <i data-lucide="stethoscope" class="w-5 h-5"></i>
-                        <span class="font-bold text-sm">Specialists</span>
+                    <button onclick="switchTab('doctors')" class="nav-btn w-full flex items-center space-x-3 px-4 py-3.5 rounded-xl transition-all" data-tab="doctors">
+                        <i data-lucide="stethoscope" class="w-5 h-5"></i><span class="font-bold text-sm">Doctors</span>
                     </button>
-                    <button onclick="switchTab('billing')" class="nav-btn w-full flex items-center space-x-4 px-5 py-4 rounded-2xl text-slate-400 hover:bg-slate-800 transition-all" data-tab="billing">
-                        <i data-lucide="credit-card" class="w-5 h-5"></i>
-                        <span class="font-bold text-sm">Financials</span>
+                    <button onclick="switchTab('billing')" class="nav-btn w-full flex items-center space-x-3 px-4 py-3.5 rounded-xl transition-all" data-tab="billing">
+                        <i data-lucide="receipt" class="w-5 h-5"></i><span class="font-bold text-sm">Billing</span>
                     </button>
                 </nav>
-
-                <div class="p-8 border-t border-slate-800">
-                    <div class="bg-slate-800/40 rounded-2xl p-4 mb-6">
-                        <p class="text-[9px] uppercase font-black text-slate-500 mb-1">Authenticated</p>
-                        <p class="text-xs font-bold text-blue-400">Anna Elizabeth J.</p>
-                    </div>
-                    <button onclick="logout()" class="flex items-center space-x-3 text-slate-500 hover:text-rose-400 font-bold text-xs uppercase tracking-widest w-full px-5">
-                        <i data-lucide="log-out" class="w-4 h-4"></i>
-                        <span>Sign Out</span>
+                <div class="p-6 border-t border-slate-800">
+                    <button onclick="location.reload()" class="w-full text-slate-500 hover:text-white flex items-center space-x-2 text-xs font-bold uppercase tracking-widest px-4">
+                        <i data-lucide="log-out" class="w-4 h-4"></i><span>Logout</span>
                     </button>
                 </div>
             </aside>
 
-            <!-- Content Area -->
+            <!-- Main -->
             <main class="flex-1 overflow-y-auto flex flex-col">
-                <header class="sticky top-0 glass-header border-b border-slate-200 px-8 py-5 flex items-center justify-between z-40">
-                    <div>
-                        <h2 id="current-tab-title" class="text-xl font-black text-slate-900 tracking-tight">Dashboard</h2>
-                        <p class="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">VAST Group 9 • DBMS Project</p>
-                    </div>
-                    <div class="flex items-center space-x-4">
-                        <div class="flex items-center px-4 py-2 bg-emerald-50 text-emerald-600 rounded-full border border-emerald-100">
-                            <span class="w-2 h-2 bg-emerald-500 rounded-full mr-2 animate-pulse"></span>
-                            <span class="text-[10px] font-black uppercase">Live DB Sync</span>
+                <header class="glass-header sticky top-0 z-30 px-8 py-5 border-b border-slate-200 flex justify-between items-center">
+                    <h2 id="header-title" class="text-xl font-black text-slate-900">Dashboard</h2>
+                    <div class="flex items-center space-x-3">
+                        <div class="text-right mr-3 hidden sm:block">
+                            <p class="text-[10px] font-black text-slate-400 uppercase">Administrator</p>
+                            <p class="text-xs font-bold text-slate-700">Anna Joby</p>
                         </div>
-                        <div class="w-10 h-10 rounded-xl bg-slate-900 flex items-center justify-center text-white font-black text-sm">AE</div>
+                        <div class="w-10 h-10 bg-slate-900 rounded-xl flex items-center justify-center text-white font-bold">AJ</div>
                     </div>
                 </header>
 
-                <div class="p-8 max-w-7xl mx-auto w-full flex-1">
-                    <!-- Dashboard Content -->
-                    <div id="content-dashboard" class="tab-content space-y-8">
-                        <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+                <div class="p-8 max-w-7xl mx-auto w-full">
+                    <!-- Dashboard Tab -->
+                    <div id="tab-dashboard" class="tab-content space-y-8">
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
                             <div class="bg-white p-6 rounded-3xl border border-slate-100 shadow-sm">
-                                <i data-lucide="users" class="w-8 h-8 text-blue-600 mb-4"></i>
-                                <h3 class="text-xs font-bold text-slate-400 uppercase tracking-widest">Patients</h3>
-                                <p class="text-3xl font-black mt-1">124</p>
+                                <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Total Patients</p>
+                                <p id="stat-patients" class="text-3xl font-black">0</p>
                             </div>
                             <div class="bg-white p-6 rounded-3xl border border-slate-100 shadow-sm">
-                                <i data-lucide="stethoscope" class="w-8 h-8 text-emerald-600 mb-4"></i>
-                                <h3 class="text-xs font-bold text-slate-400 uppercase tracking-widest">Doctors</h3>
-                                <p class="text-3xl font-black mt-1">12</p>
+                                <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Active Doctors</p>
+                                <p id="stat-doctors" class="text-3xl font-black">0</p>
                             </div>
                             <div class="bg-white p-6 rounded-3xl border border-slate-100 shadow-sm">
-                                <i data-lucide="calendar" class="w-8 h-8 text-amber-600 mb-4"></i>
-                                <h3 class="text-xs font-bold text-slate-400 uppercase tracking-widest">Appointments</h3>
-                                <p class="text-3xl font-black mt-1">42</p>
-                            </div>
-                            <div class="bg-white p-6 rounded-3xl border border-slate-100 shadow-sm">
-                                <i data-lucide="database" class="w-8 h-8 text-indigo-600 mb-4"></i>
-                                <h3 class="text-xs font-bold text-slate-400 uppercase tracking-widest">Tables</h3>
-                                <p class="text-3xl font-black mt-1">8</p>
+                                <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Total Billing</p>
+                                <p id="stat-billing" class="text-3xl font-black">₹0</p>
                             </div>
                         </div>
-
-                        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                            <div class="bg-white rounded-3xl p-8 border border-slate-100 shadow-sm">
-                                <h3 class="font-black text-lg mb-6">Recent Records</h3>
-                                <div class="space-y-4" id="recent-list">
-                                    <!-- Dynamic content here -->
-                                </div>
-                            </div>
-                            <div class="bg-[#1E293B] text-white rounded-3xl p-8">
-                                <h3 class="font-black text-lg mb-6 flex items-center gap-2">
-                                    <i data-lucide="server" class="w-5 h-5 text-blue-400"></i> Backend Node
-                                </h3>
-                                <div class="space-y-6">
-                                    <div class="p-4 bg-slate-800 rounded-2xl border border-slate-700">
-                                        <p class="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-1">RDBMS Engine</p>
-                                        <p class="font-bold text-blue-400">MySQL 8.0 / Supabase</p>
-                                    </div>
-                                    <div class="p-4 bg-slate-800 rounded-2xl border border-slate-700">
-                                        <p class="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-1">Project Guide</p>
-                                        <p class="font-bold text-emerald-400">Mr. Muhammad Ali Shihab V S</p>
-                                    </div>
-                                </div>
+                        <div class="bg-slate-900 text-white rounded-[2rem] p-8">
+                            <h3 class="text-lg font-black mb-4">Relational Database Model</h3>
+                            <p class="text-slate-400 text-sm leading-relaxed mb-6">Currently simulating 3 linked tables: <code class="text-blue-400">PATIENTS</code>, <code class="text-DOCTORS">DOCTORS</code>, and <code class="text-rose-400">BILLING</code> with referential integrity. Managed by Group 9.</p>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="bg-slate-800 px-3 py-1 rounded-full text-[10px] font-bold border border-slate-700">Primary Keys: ID</span>
+                                <span class="bg-slate-800 px-3 py-1 rounded-full text-[10px] font-bold border border-slate-700">Storage: In-Memory / GitHub Ready</span>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Patients Content -->
-                    <div id="content-patients" class="tab-content hidden space-y-6">
+                    <!-- Patients Tab -->
+                    <div id="tab-patients" class="tab-content hidden space-y-6">
                         <div class="flex justify-between items-center">
-                            <div class="relative max-w-sm w-full">
-                                <i data-lucide="search" class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 w-4 h-4"></i>
-                                <input type="text" placeholder="Filter patient records..." class="w-full pl-12 pr-6 py-3 bg-white border border-slate-200 rounded-2xl outline-none focus:ring-4 focus:ring-blue-500/10 font-bold text-sm">
-                            </div>
-                            <button onclick="toggleModal('patient-modal', true)" class="bg-blue-600 text-white px-6 py-3 rounded-2xl font-black text-xs uppercase tracking-widest flex items-center gap-2">
-                                <i data-lucide="plus" class="w-4 h-4"></i> New Registration
-                            </button>
+                            <h3 class="text-lg font-black uppercase tracking-tight">Patient Registry</h3>
+                            <button onclick="openModal('patient')" class="bg-blue-600 text-white px-5 py-3 rounded-2xl font-black text-xs uppercase tracking-widest flex items-center gap-2 shadow-lg shadow-blue-500/20"><i data-lucide="plus" class="w-4 h-4"></i> New Entry</button>
                         </div>
-                        <div class="bg-white rounded-3xl border border-slate-200 shadow-sm overflow-hidden">
+                        <div class="bg-white rounded-3xl border border-slate-200 overflow-hidden shadow-sm">
                             <table class="w-full text-left">
-                                <thead class="bg-slate-50 border-b border-slate-100 text-[10px] font-black text-slate-400 uppercase tracking-[0.1em]">
-                                    <tr>
-                                        <th class="px-8 py-5">UID</th>
-                                        <th class="px-8 py-5">Patient Name</th>
-                                        <th class="px-8 py-5">Status</th>
-                                        <th class="px-8 py-5">Diagnosis</th>
-                                        <th class="px-8 py-5 text-right">Actions</th>
-                                    </tr>
+                                <thead class="bg-slate-50 border-b border-slate-100 text-[10px] font-black text-slate-400 uppercase">
+                                    <tr><th class="px-6 py-4">ID</th><th class="px-6 py-4">Name</th><th class="px-6 py-4">Status</th><th class="px-6 py-4">Diagnosis</th><th class="px-6 py-4 text-right">Actions</th></tr>
                                 </thead>
-                                <tbody id="patient-table-body" class="divide-y divide-slate-50">
-                                    <!-- Dynamic rows -->
-                                </tbody>
+                                <tbody id="table-patients" class="divide-y divide-slate-50"></tbody>
                             </table>
                         </div>
                     </div>
 
-                    <!-- Other tabs would be similarly structured -->
-                    <div id="content-doctors" class="tab-content hidden grid grid-cols-1 md:grid-cols-3 gap-8">
-                        <!-- Dynamic Doctor Cards -->
+                    <!-- Doctors Tab -->
+                    <div id="tab-doctors" class="tab-content hidden space-y-6">
+                        <div class="flex justify-between items-center">
+                            <h3 class="text-lg font-black uppercase tracking-tight">Specialists</h3>
+                            <button onclick="openModal('doctor')" class="bg-emerald-600 text-white px-5 py-3 rounded-2xl font-black text-xs uppercase tracking-widest flex items-center gap-2 shadow-lg shadow-emerald-500/20"><i data-lucide="plus" class="w-4 h-4"></i> Add Doctor</button>
+                        </div>
+                        <div id="grid-doctors" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
                     </div>
-                    
-                    <div id="content-billing" class="tab-content hidden">
-                         <div class="bg-white rounded-3xl border border-slate-200 shadow-sm overflow-hidden">
-                             <div class="p-8 border-b border-slate-100 flex justify-between items-center">
-                                 <h3 class="font-black">Finance Master</h3>
-                             </div>
-                             <table class="w-full text-left">
-                                 <thead class="bg-slate-50 text-[10px] font-black text-slate-400 uppercase px-8">
-                                     <tr>
-                                         <th class="px-8 py-4">Bill No</th>
-                                         <th class="px-8 py-4">Patient</th>
-                                         <th class="px-8 py-4">Amount</th>
-                                         <th class="px-8 py-4">Status</th>
-                                     </tr>
-                                 </thead>
-                                 <tbody id="billing-table-body" class="divide-y divide-slate-50"></tbody>
-                             </table>
-                         </div>
+
+                    <!-- Billing Tab -->
+                    <div id="tab-billing" class="tab-content hidden space-y-6">
+                        <div class="flex justify-between items-center">
+                            <h3 class="text-lg font-black uppercase tracking-tight">Accounts Receivable</h3>
+                            <button onclick="openModal('bill')" class="bg-indigo-600 text-white px-5 py-3 rounded-2xl font-black text-xs uppercase tracking-widest flex items-center gap-2 shadow-lg shadow-indigo-500/20"><i data-lucide="plus" class="w-4 h-4"></i> Create Invoice</button>
+                        </div>
+                        <div class="bg-white rounded-3xl border border-slate-200 overflow-hidden shadow-sm">
+                            <table class="w-full text-left">
+                                <thead class="bg-slate-50 border-b border-slate-100 text-[10px] font-black text-slate-400 uppercase">
+                                    <tr><th class="px-6 py-4">Bill#</th><th class="px-6 py-4">Patient</th><th class="px-6 py-4">Amount</th><th class="px-6 py-4">Status</th><th class="px-6 py-4 text-right">Actions</th></tr>
+                                </thead>
+                                <tbody id="table-billing" class="divide-y divide-slate-50"></tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
-
-                <footer class="p-8 text-center text-[10px] font-black text-slate-400 uppercase tracking-[0.3em]">
-                    Group 9 DBMS Project • © 2026 VAST
-                </footer>
             </main>
         </div>
 
-        <!-- Modal Overlay -->
-        <div id="patient-modal" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-[100] hidden items-center justify-center p-6">
-            <div class="bg-white rounded-[2.5rem] w-full max-w-lg overflow-hidden shadow-2xl">
-                <div class="p-8 border-b border-slate-100 flex justify-between items-center">
-                    <h3 class="text-xl font-black tracking-tight">Register Patient</h3>
-                    <button onclick="toggleModal('patient-modal', false)" class="p-2 hover:bg-slate-100 rounded-xl"><i data-lucide="x"></i></button>
+        <!-- Dynamic Modal (used for Add/Edit) -->
+        <div id="modal" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-[100] hidden items-center justify-center p-4">
+            <div class="bg-white rounded-[2rem] w-full max-w-md overflow-hidden">
+                <div class="p-6 border-b border-slate-100 flex justify-between items-center">
+                    <h3 id="modal-title" class="font-black text-lg">Add Entry</h3>
+                    <button onclick="closeModal()" class="p-2 hover:bg-slate-100 rounded-lg"><i data-lucide="x" class="w-5 h-5"></i></button>
                 </div>
-                <form id="add-patient-form" class="p-8 space-y-6">
-                    <div>
-                        <label class="block text-[10px] font-black text-slate-400 uppercase mb-2 ml-1">Full Name</label>
-                        <input type="text" id="new-p-name" required class="w-full p-4 bg-slate-50 border border-slate-100 rounded-2xl outline-none focus:ring-4 focus:ring-blue-500/10 font-bold">
-                    </div>
-                    <div class="grid grid-cols-2 gap-4">
-                        <div>
-                            <label class="block text-[10px] font-black text-slate-400 uppercase mb-2 ml-1">Age</label>
-                            <input type="number" id="new-p-age" required class="w-full p-4 bg-slate-50 border border-slate-100 rounded-2xl outline-none focus:ring-4 focus:ring-blue-500/10 font-bold">
-                        </div>
-                        <div>
-                            <label class="block text-[10px] font-black text-slate-400 uppercase mb-2 ml-1">Type</label>
-                            <select id="new-p-type" class="w-full p-4 bg-slate-50 border border-slate-100 rounded-2xl outline-none focus:ring-4 focus:ring-blue-500/10 font-bold">
-                                <option>Out-patient</option>
-                                <option>In-patient</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div>
-                        <label class="block text-[10px] font-black text-slate-400 uppercase mb-2 ml-1">Diagnosis</label>
-                        <input type="text" id="new-p-diag" required class="w-full p-4 bg-slate-50 border border-slate-100 rounded-2xl outline-none focus:ring-4 focus:ring-blue-500/10 font-bold">
-                    </div>
-                    <button type="submit" class="w-full bg-blue-600 text-white font-black py-4 rounded-2xl shadow-xl shadow-blue-500/20 uppercase tracking-widest text-xs">
-                        Commit to Database
-                    </button>
+                <form id="modal-form" class="p-8 space-y-5">
+                    <input type="hidden" id="edit-id">
+                    <input type="hidden" id="modal-type">
+                    <div id="form-fields" class="space-y-4"></div>
+                    <button type="submit" class="w-full bg-slate-900 text-white py-4 rounded-2xl font-black uppercase text-xs tracking-widest shadow-xl">Save Changes</button>
                 </form>
             </div>
         </div>
@@ -271,56 +166,36 @@
     <script>
         // --- DATA ---
         let patients = [
-            { id: 'P001', name: 'Anjana Ramesh', age: 21, type: 'In-patient', diagnosis: 'Migraine' },
-            { id: 'P002', name: 'Arathi Krishna', age: 21, type: 'Out-patient', diagnosis: 'General Checkup' },
-            { id: 'P003', name: 'Akshaya V R', age: 22, type: 'In-patient', diagnosis: 'Fever' }
+            { id: 'P001', name: 'Anjana Ramesh', status: 'In-patient', diagnosis: 'Migraine' },
+            { id: 'P002', name: 'Arathi Krishna', status: 'Out-patient', diagnosis: 'General Checkup' }
         ];
-
-        const doctors = [
+        let doctors = [
             { id: 'D001', name: 'Dr. Shihab', specialty: 'Cardiology', status: 'Available' },
-            { id: 'D002', name: 'Dr. Akhila K', specialty: 'Neurology', status: 'Consulting' },
-            { id: 'D003', name: 'Dr. Akshara P A', specialty: 'Pediatrics', status: 'Available' }
+            { id: 'D002', name: 'Dr. Akhila K', specialty: 'Neurology', status: 'On Duty' }
+        ];
+        let bills = [
+            { id: 'B101', name: 'Anjana Ramesh', amount: '2500', status: 'Paid' },
+            { id: 'B102', name: 'Arathi Krishna', amount: '1200', status: 'Pending' }
         ];
 
-        const bills = [
-            { id: 'B101', name: 'Anjana Ramesh', amount: '2,500', status: 'Paid' },
-            { id: 'B102', name: 'Arathi Krishna', amount: '450', status: 'Pending' }
-        ];
-
-        // --- CORE LOGIC ---
-        function initializeApp() {
-            lucide.createIcons();
-            renderAll();
-        }
-
-        // Login Handler
-        document.getElementById('login-form').addEventListener('submit', function(e) {
+        // --- AUTH ---
+        document.getElementById('login-form').addEventListener('submit', (e) => {
             e.preventDefault();
-            const u = document.getElementById('username').value;
-            const p = document.getElementById('password').value;
-
-            if (u === 'admin' && p === 'admin123') {
+            if (document.getElementById('username').value === 'admin' && document.getElementById('password').value === 'admin123') {
                 document.getElementById('login-screen').classList.add('hidden');
                 document.getElementById('main-app').classList.remove('hidden');
                 switchTab('dashboard');
-            } else {
-                const err = document.getElementById('login-error');
-                err.classList.remove('hidden');
-                setTimeout(() => err.classList.add('hidden'), 3000);
             }
         });
 
-        function switchTab(tabId) {
-            // Update Title
-            document.getElementById('current-tab-title').innerText = tabId.charAt(0).toUpperCase() + tabId.slice(1);
+        // --- NAVIGATION ---
+        function switchTab(tab) {
+            document.querySelectorAll('.tab-content').forEach(c => c.classList.add('hidden'));
+            document.getElementById('tab-' + tab).classList.remove('hidden');
+            document.getElementById('header-title').innerText = tab.charAt(0).toUpperCase() + tab.slice(1);
             
-            // Hide all content
-            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
-            document.getElementById('content-' + tabId).classList.remove('hidden');
-            
-            // Update Buttons
             document.querySelectorAll('.nav-btn').forEach(btn => {
-                if (btn.getAttribute('data-tab') === tabId) {
+                if (btn.dataset.tab === tab) {
                     btn.classList.add('bg-blue-600', 'text-white', 'shadow-lg');
                     btn.classList.remove('text-slate-400');
                 } else {
@@ -328,108 +203,155 @@
                     btn.classList.add('text-slate-400');
                 }
             });
-
-            renderAll();
+            render();
         }
 
-        function toggleModal(id, show) {
-            const el = document.getElementById(id);
-            if (show) {
-                el.classList.remove('hidden');
-                el.classList.add('flex');
-            } else {
-                el.classList.add('hidden');
-                el.classList.remove('flex');
+        // --- MODAL SYSTEM ---
+        function openModal(type, id = null) {
+            const modal = document.getElementById('modal');
+            const title = document.getElementById('modal-title');
+            const fields = document.getElementById('form-fields');
+            const typeInput = document.getElementById('modal-type');
+            const editId = document.getElementById('edit-id');
+            
+            typeInput.value = type;
+            editId.value = id || '';
+            title.innerText = (id ? 'Edit ' : 'New ') + type.charAt(0).toUpperCase() + type.slice(1);
+            
+            let data = id ? 
+                (type === 'patient' ? patients.find(x => x.id === id) : 
+                 type === 'doctor' ? doctors.find(x => x.id === id) : 
+                 bills.find(x => x.id === id)) : {};
+
+            fields.innerHTML = '';
+            if (type === 'patient') {
+                fields.innerHTML = `
+                    <input type="text" id="p-name" placeholder="Name" value="${data.name || ''}" class="w-full p-4 bg-slate-50 border rounded-xl font-bold" required>
+                    <select id="p-status" class="w-full p-4 bg-slate-50 border rounded-xl font-bold">
+                        <option ${data.status === 'In-patient' ? 'selected' : ''}>In-patient</option>
+                        <option ${data.status === 'Out-patient' ? 'selected' : ''}>Out-patient</option>
+                    </select>
+                    <input type="text" id="p-diag" placeholder="Diagnosis" value="${data.diagnosis || ''}" class="w-full p-4 bg-slate-50 border rounded-xl font-bold" required>
+                `;
+            } else if (type === 'doctor') {
+                fields.innerHTML = `
+                    <input type="text" id="d-name" placeholder="Doctor Name" value="${data.name || ''}" class="w-full p-4 bg-slate-50 border rounded-xl font-bold" required>
+                    <input type="text" id="d-spec" placeholder="Specialty" value="${data.specialty || ''}" class="w-full p-4 bg-slate-50 border rounded-xl font-bold" required>
+                    <select id="d-status" class="w-full p-4 bg-slate-50 border rounded-xl font-bold">
+                        <option ${data.status === 'Available' ? 'selected' : ''}>Available</option>
+                        <option ${data.status === 'On Duty' ? 'selected' : ''}>On Duty</option>
+                        <option ${data.status === 'Off' ? 'selected' : ''}>Off</option>
+                    </select>
+                `;
+            } else if (type === 'bill') {
+                fields.innerHTML = `
+                    <input type="text" id="b-name" placeholder="Patient Name" value="${data.name || ''}" class="w-full p-4 bg-slate-50 border rounded-xl font-bold" required>
+                    <input type="number" id="b-amount" placeholder="Amount (₹)" value="${data.amount || ''}" class="w-full p-4 bg-slate-50 border rounded-xl font-bold" required>
+                    <select id="b-status" class="w-full p-4 bg-slate-50 border rounded-xl font-bold">
+                        <option ${data.status === 'Paid' ? 'selected' : ''}>Paid</option>
+                        <option ${data.status === 'Pending' ? 'selected' : ''}>Pending</option>
+                    </select>
+                `;
             }
+
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
         }
 
-        function renderAll() {
-            // Render Patients
-            const pBody = document.getElementById('patient-table-body');
-            pBody.innerHTML = patients.map(p => `
-                <tr class="hover:bg-blue-50/30 group">
-                    <td class="px-8 py-5 font-mono text-xs text-blue-600 font-bold">${p.id}</td>
-                    <td class="px-8 py-5 font-bold text-slate-800">${p.name} <span class="block text-[9px] text-slate-400 uppercase">${p.age} years</span></td>
-                    <td class="px-8 py-5"><span class="px-3 py-1 rounded-full text-[9px] font-black uppercase ${p.type === 'In-patient' ? 'bg-amber-100 text-amber-700' : 'bg-blue-100 text-blue-700'}">${p.type}</span></td>
-                    <td class="px-8 py-5 text-xs font-bold text-slate-500">${p.diagnosis}</td>
-                    <td class="px-8 py-5 text-right"><button onclick="deletePatient('${p.id}')" class="text-slate-300 hover:text-rose-500 transition-all"><i data-lucide="trash-2" class="w-4 h-4"></i></button></td>
+        function closeModal() {
+            document.getElementById('modal').classList.add('hidden');
+            document.getElementById('modal').classList.remove('flex');
+        }
+
+        // --- CRUD ACTIONS ---
+        document.getElementById('modal-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const type = document.getElementById('modal-type').value;
+            const id = document.getElementById('edit-id').value;
+
+            if (type === 'patient') {
+                const item = { id: id || 'P' + Date.now().toString().slice(-3), name: document.getElementById('p-name').value, status: document.getElementById('p-status').value, diagnosis: document.getElementById('p-diag').value };
+                if (id) patients = patients.map(p => p.id === id ? item : p);
+                else patients.push(item);
+            } else if (type === 'doctor') {
+                const item = { id: id || 'D' + Date.now().toString().slice(-3), name: document.getElementById('d-name').value, specialty: document.getElementById('d-spec').value, status: document.getElementById('d-status').value };
+                if (id) doctors = doctors.map(d => d.id === id ? item : d);
+                else doctors.push(item);
+            } else if (type === 'bill') {
+                const item = { id: id || 'B' + Date.now().toString().slice(-3), name: document.getElementById('b-name').value, amount: document.getElementById('b-amount').value, status: document.getElementById('b-status').value };
+                if (id) bills = bills.map(b => b.id === id ? item : b);
+                else bills.push(item);
+            }
+
+            closeModal();
+            render();
+        });
+
+        function deleteItem(type, id) {
+            if (!confirm('Are you sure you want to delete this record?')) return;
+            if (type === 'patient') patients = patients.filter(p => p.id !== id);
+            if (type === 'doctor') doctors = doctors.filter(d => d.id !== id);
+            if (type === 'bill') bills = bills.filter(b => b.id !== id);
+            render();
+        }
+
+        // --- RENDERING ---
+        function render() {
+            // Stats
+            document.getElementById('stat-patients').innerText = patients.length;
+            document.getElementById('stat-doctors').innerText = doctors.length;
+            document.getElementById('stat-billing').innerText = '₹' + bills.reduce((acc, b) => acc + parseInt(b.amount || 0), 0).toLocaleString();
+
+            // Patients Table
+            document.getElementById('table-patients').innerHTML = patients.map(p => `
+                <tr class="hover:bg-blue-50/50">
+                    <td class="px-6 py-5 font-mono text-blue-600 font-bold text-xs">${p.id}</td>
+                    <td class="px-6 py-5 font-bold">${p.name}</td>
+                    <td class="px-6 py-5"><span class="px-3 py-1 rounded-full text-[9px] font-black uppercase ${p.status === 'In-patient' ? 'bg-amber-100 text-amber-600' : 'bg-blue-100 text-blue-600'}">${p.status}</span></td>
+                    <td class="px-6 py-5 text-xs text-slate-500">${p.diagnosis}</td>
+                    <td class="px-6 py-5 text-right space-x-2">
+                        <button onclick="openModal('patient', '${p.id}')" class="text-slate-400 hover:text-blue-600"><i data-lucide="edit-3" class="w-4 h-4"></i></button>
+                        <button onclick="deleteItem('patient', '${p.id}')" class="text-slate-400 hover:text-rose-600"><i data-lucide="trash-2" class="w-4 h-4"></i></button>
+                    </td>
                 </tr>
             `).join('');
 
-            // Render Dashboard List
-            const dashList = document.getElementById('recent-list');
-            dashList.innerHTML = patients.slice(0, 3).map(p => `
-                <div class="flex items-center justify-between p-4 bg-slate-50 rounded-2xl">
-                    <div class="flex items-center gap-3">
-                        <div class="w-10 h-10 bg-blue-600 rounded-xl flex items-center justify-center text-white font-bold text-xs">${p.name[0]}</div>
-                        <div>
-                            <p class="text-sm font-bold text-slate-800">${p.name}</p>
-                            <p class="text-[9px] font-bold text-slate-400 uppercase">${p.diagnosis}</p>
+            // Doctors Grid
+            document.getElementById('grid-doctors').innerHTML = doctors.map(d => `
+                <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm relative group">
+                    <div class="flex justify-between items-start mb-4">
+                        <div class="w-12 h-12 bg-slate-900 rounded-xl flex items-center justify-center text-white"><i data-lucide="stethoscope"></i></div>
+                        <div class="space-x-2">
+                            <button onclick="openModal('doctor', '${d.id}')" class="text-slate-400 hover:text-blue-600"><i data-lucide="edit-3" class="w-4 h-4"></i></button>
+                            <button onclick="deleteItem('doctor', '${d.id}')" class="text-slate-400 hover:text-rose-600"><i data-lucide="trash-2" class="w-4 h-4"></i></button>
                         </div>
                     </div>
-                    <span class="text-[10px] font-bold text-blue-600">NEW ENTRY</span>
+                    <h4 class="font-black text-slate-900">${d.name}</h4>
+                    <p class="text-blue-600 font-bold text-[10px] uppercase tracking-widest mb-4">${d.specialty}</p>
+                    <div class="flex items-center text-[10px] font-black uppercase ${d.status === 'Available' ? 'text-emerald-500' : 'text-amber-500'}">
+                        <span class="w-2 h-2 rounded-full bg-current mr-2"></span> ${d.status}
+                    </div>
                 </div>
             `).join('');
 
-            // Render Doctors
-            const dGrid = document.getElementById('content-doctors');
-            dGrid.innerHTML = doctors.map(d => `
-                <div class="bg-white rounded-[2rem] p-8 border border-slate-100 shadow-sm hover:shadow-xl transition-all group">
-                    <div class="w-14 h-14 bg-slate-900 rounded-2xl flex items-center justify-center text-white mb-6 group-hover:scale-110 transition-transform"><i data-lucide="stethoscope"></i></div>
-                    <h3 class="text-lg font-black text-slate-900">${d.name}</h3>
-                    <p class="text-blue-600 font-bold text-[10px] uppercase tracking-widest mb-6">${d.specialty}</p>
-                    <div class="flex items-center text-[10px] font-black uppercase ${d.status === 'Available' ? 'text-emerald-500' : 'text-amber-500'}">
-                        <span class="w-2 h-2 rounded-full bg-current mr-2 animate-pulse"></span> ${d.status}
-                    </div>
-                </div>
-            `).join('') + `
-                <button class="border-4 border-dashed border-slate-100 rounded-[2rem] flex flex-col items-center justify-center p-10 text-slate-300 hover:border-blue-400 hover:text-blue-400 transition-all">
-                    <i data-lucide="plus" class="w-10 h-10 mb-2"></i>
-                    <span class="text-[10px] font-black uppercase">Add Specialist</span>
-                </button>
-            `;
-
-            // Render Billing
-            const bBody = document.getElementById('billing-table-body');
-            bBody.innerHTML = bills.map(b => `
-                <tr>
-                    <td class="px-8 py-5 font-mono text-xs">${b.id}</td>
-                    <td class="px-8 py-5 font-bold">${b.name}</td>
-                    <td class="px-8 py-5 font-black text-slate-900">₹${b.amount}</td>
-                    <td class="px-8 py-5"><span class="px-3 py-1 rounded-full text-[9px] font-black uppercase ${b.status === 'Paid' ? 'bg-emerald-100 text-emerald-700' : 'bg-rose-100 text-rose-700'}">${b.status}</span></td>
+            // Billing Table
+            document.getElementById('table-billing').innerHTML = bills.map(b => `
+                <tr class="hover:bg-slate-50">
+                    <td class="px-6 py-5 font-mono text-xs">${b.id}</td>
+                    <td class="px-6 py-5 font-bold">${b.name}</td>
+                    <td class="px-6 py-5 font-black">₹${b.amount}</td>
+                    <td class="px-6 py-5"><span class="px-3 py-1 rounded-full text-[9px] font-black uppercase ${b.status === 'Paid' ? 'bg-emerald-100 text-emerald-600' : 'bg-rose-100 text-rose-600'}">${b.status}</span></td>
+                    <td class="px-6 py-5 text-right space-x-2">
+                        <button onclick="openModal('bill', '${b.id}')" class="text-slate-400 hover:text-blue-600"><i data-lucide="edit-3" class="w-4 h-4"></i></button>
+                        <button onclick="deleteItem('bill', '${b.id}')" class="text-slate-400 hover:text-rose-600"><i data-lucide="trash-2" class="w-4 h-4"></i></button>
+                    </td>
                 </tr>
             `).join('');
 
             lucide.createIcons();
         }
 
-        // Add Patient Form
-        document.getElementById('add-patient-form').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const newP = {
-                id: 'P' + String(patients.length + 1).padStart(3, '0'),
-                name: document.getElementById('new-p-name').value,
-                age: document.getElementById('new-p-age').value,
-                type: document.getElementById('new-p-type').value,
-                diagnosis: document.getElementById('new-p-diag').value
-            };
-            patients.push(newP);
-            this.reset();
-            toggleModal('patient-modal', false);
-            renderAll();
-        });
-
-        function deletePatient(id) {
-            patients = patients.filter(p => p.id !== id);
-            renderAll();
-        }
-
-        function logout() {
-            location.reload();
-        }
-
-        // Init on load
-        window.onload = initializeApp;
+        window.onload = () => { lucide.createIcons(); render(); };
     </script>
 </body>
 </html>
